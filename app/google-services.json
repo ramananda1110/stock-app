@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1053042018225",
+    "project_id": "stock-app-6177b",
+    "storage_bucket": "stock-app-6177b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053042018225:android:e3a994759f201e7e8a9f90",
+        "android_client_info": {
+          "package_name": "com.pluang.stockapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053042018225-aro69sejj8ic3r8gijj7nd3r49snbbgv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTkXutFckqjnSPymc7amKqpqJlVhsNAjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053042018225-aro69sejj8ic3r8gijj7nd3r49snbbgv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
