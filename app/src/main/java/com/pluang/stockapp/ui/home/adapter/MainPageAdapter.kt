@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.pluang.stockapp.ui.home.view.HomeFragment
+import com.pluang.stockapp.ui.home.view.ProfileFragment
 import com.pluang.stockapp.ui.home.view.WishListFragment
 
 
@@ -17,11 +18,10 @@ class MainPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
             1 -> {
                 WishListFragment()
-                //ScannedHistoryFragment.newInstance(ScannedHistoryFragment.ResultListType.ALL_RESULT)
             }
 
             2 -> {
-                HomeFragment()
+                ProfileFragment()
             }
 
             else -> {

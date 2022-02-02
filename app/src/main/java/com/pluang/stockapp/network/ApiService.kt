@@ -14,7 +14,6 @@ interface ApiService {
     @GET("stocks/quotes?sids=RELI%2CTCS%2CITC%2CHDBK%2CINFY")
     fun getStocksData(): Call<DataResponse?>?
 
-
     companion object Factory {
 
         fun create(): ApiService {

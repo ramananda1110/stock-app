@@ -1,6 +1,7 @@
 package com.pluang.stockapp.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.pluang.stockapp.R
 import com.pluang.stockapp.databinding.ActivityLoginBinding
+import com.pluang.stockapp.ui.home.view.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -96,17 +98,20 @@ class LoginActivity : AppCompatActivity() {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
 
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                    username.text.toString(),
-                    password.text.toString()
-                )
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val firebaseUser: FirebaseUser = task.result!!.user!!;
-                        } else {
+                /* FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                     username.text.toString(),
+                     password.text.toString()
+                 )
+                     .addOnCompleteListener { task ->
+                         if (task.isSuccessful) {
+                             val firebaseUser: FirebaseUser = task.result!!.user!!;
+                         } else {
 
-                        }
-                    }
+                         }
+                     }*/
+
+                val intent = Intent(context, MainActivity::class.java)
+                context.startActivity(intent)
 
             }
 

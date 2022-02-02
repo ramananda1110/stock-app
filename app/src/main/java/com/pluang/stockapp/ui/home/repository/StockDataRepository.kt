@@ -1,5 +1,6 @@
 package com.pluang.stockapp.ui.home.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.pluang.stockapp.data.model.DataResponse
@@ -17,10 +18,8 @@ class StockDataRepository {
         get() {
             val _stockList = MutableLiveData<DataResponse?>()
             isUpdated.setValue(true)
-            val apiReader = ApiService.create();
 
-            val list: Call<DataResponse> = apiReader.getStocksData()
-            list.enqueue(object : Callback<DataResponse?> {
+            ApiService.create().getStocksData()?.enqueue(object : Callback<DataResponse?> {
                 override fun onResponse(
                     call: Call<DataResponse?>,
                     response: Response<DataResponse?>
@@ -32,6 +31,7 @@ class StockDataRepository {
                 }
 
                 override fun onFailure(call: Call<DataResponse?>, t: Throwable) {
+                    Log.e("printError", t.message.toString());
                     isUpdated.setValue(false)
                 }
             })

@@ -4,6 +4,6 @@ import com.pluang.stockapp.data.model.StockData
 
 interface OnCheckListener {
 
-    fun onCheckListener(userData: StockData?)
+    fun onCheckListener(stockData: StockData?)
 
 }

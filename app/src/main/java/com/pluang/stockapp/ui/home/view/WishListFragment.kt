@@ -3,9 +3,11 @@ package com.pluang.stockapp.ui.home.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +24,6 @@ import java.util.*
 class WishListFragment : Fragment(), OnCheckListener {
     var adapter: StockListAdapter? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var datList: ArrayList<StockData>? = null
     private var mContext: Context? = null
     private var viewModel: StockDataViewModel? = null
     private var binding: FragmentHomeBinding? = null
@@ -32,26 +33,21 @@ class WishListFragment : Fragment(), OnCheckListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(StockDataViewModel::class.java)
         layoutManager = LinearLayoutManager(context)
         mContext = activity
         if (isNetworkAvailable(requireActivity())) {
             setData();
+        } else {
+            Toast.makeText(requireActivity(), "message", Toast.LENGTH_LONG).show()
         }
         viewModel!!.updateStatus.observe(this, { status: Boolean -> loaderEnable(status) })
         return binding!!.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-
     private fun setData() {
-
-        //viewModel!!.stockList.observe(requireActivity(), datList )
 
         viewModel!!.stockList.observe(requireActivity(), Observer {
 
@@ -62,7 +58,6 @@ class WishListFragment : Fragment(), OnCheckListener {
                 binding!!.recyclerList.layoutManager = layoutManager
                 binding!!.recyclerList.adapter = adapter
             }
-
 
         })
 
@@ -77,5 +72,7 @@ class WishListFragment : Fragment(), OnCheckListener {
         }
     }
 
-    override fun onCheckListener(userData: StockData?) {}
+    override fun onCheckListener(stockData: StockData?) {
+
+    }
 }

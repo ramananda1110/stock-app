@@ -23,7 +23,7 @@ data class DataResponse(
     val date: String? = null,
 
     @field:SerializedName("high")
-    val high: Int? = null,
+    val high: Double? = null,
 
     @field:SerializedName("low")
     val low: Double? = null,
