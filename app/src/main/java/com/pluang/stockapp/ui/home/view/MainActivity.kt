@@ -1,6 +1,9 @@
 package com.pluang.stockapp.ui.home.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.pluang.stockapp.R
@@ -11,6 +14,7 @@ import com.pluang.stockapp.ui.home.contact.OnUpdateListener
 class MainActivity : AppCompatActivity(), OnUpdateListener {
 
     private lateinit var binding: ActivityMainBinding
+    private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +71,34 @@ class MainActivity : AppCompatActivity(), OnUpdateListener {
         })
     }
 
+    override fun onBackPressed() {
+        if (binding.viewPager.currentItem != 0) {
+            binding.viewPager.currentItem = 0
+            binding.bottomNav.selectedItemId = R.id.menu_home
+
+        } else {
+            exitApp()
+        }
+    }
+
     override fun onUpdateView() {
         startActivity(intent)
     }
+
+    private fun exitApp() {
+        if (doubleBackToExitPressedOnce) {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY
+            startActivity(intent)
+            finishAffinity()
+            finish()
+            System.exit(0)
+        }
+        doubleBackToExitPressedOnce = true
+        Toast.makeText(this, getString(R.string.please_click_back_again_to_exit), Toast.LENGTH_LONG)
+            .show()
+        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 5000)
+    }
+
 }
