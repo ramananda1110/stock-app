@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.pluang.stockapp.databinding.FragmentProfileBinding
-import com.pluang.stockapp.ui.login.LoginActivity
+import com.pluang.stockapp.ui.login_signup.LoginActivity
 
 
 class ProfileFragment : Fragment() {

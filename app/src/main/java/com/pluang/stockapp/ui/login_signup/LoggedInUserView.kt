@@ -1,4 +1,4 @@
-package com.pluang.stockapp.ui.login
+package com.pluang.stockapp.ui.login_signup
 
 /**
  * User details post authentication that is exposed to the UI

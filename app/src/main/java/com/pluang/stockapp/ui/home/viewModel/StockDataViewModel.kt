@@ -8,11 +8,7 @@ import com.pluang.stockapp.data.model.DataResponse
 import com.pluang.stockapp.ui.home.repository.StockDataRepository
 
 class StockDataViewModel(application: Application) : AndroidViewModel(application) {
-    var repository: StockDataRepository
-
-    init {
-        repository = StockDataRepository()
-    }
+    var repository: StockDataRepository = StockDataRepository()
 
     val updateStatus: LiveData<Boolean>
         get() = repository.updateStatus

@@ -1,23 +1,21 @@
-package com.pluang.stockapp.ui.login
+package com.pluang.stockapp.ui.login_signup
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.pluang.stockapp.R
 import com.pluang.stockapp.databinding.ActivityRegisterBinding
+import com.pluang.stockapp.ui.home.view.MainActivity
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginViewModel: AuthViewModel
     private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +31,7 @@ class RegisterActivity : AppCompatActivity() {
         val login = binding.textViewLogin
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+            .get(AuthViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@RegisterActivity, Observer {
             val loginState = it ?: return@Observer
@@ -49,24 +47,29 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@RegisterActivity, Observer {
-            val loginResult = it ?: return@Observer
+        loginViewModel.status().observe(this@RegisterActivity, Observer {
+            val registerResult = it ?: return@Observer
 
             loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
+            if (registerResult.error != null) {
+                showLoginFailed(registerResult.error)
             }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
+            if (registerResult.success != null) {
+                updateUiWithUser(registerResult.success)
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+
+                finish()
             }
-            setResult(Activity.RESULT_OK)
 
             //Complete and destroy login activity once successful
-            finish()
+
+
         })
 
         username.afterTextChanged {
-            loginViewModel.loginDataChanged(
+            loginViewModel.inputDataChanged(
                 username.text.toString(),
                 password.text.toString()
             )
@@ -74,38 +77,16 @@ class RegisterActivity : AppCompatActivity() {
 
         password.apply {
             afterTextChanged {
-                loginViewModel.loginDataChanged(
+                loginViewModel.inputDataChanged(
                     username.text.toString(),
                     password.text.toString()
                 )
-            }
-
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
-                }
-                false
             }
 
             register.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.register(username.text.toString(), password.text.toString())
 
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                    username.text.toString(),
-                    password.text.toString()
-                )
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val firebaseUser: FirebaseUser = task.result!!.user!!;
-                            val intent = Intent(context, LoginActivity::class.java)
-                            context.startActivity(intent)
-                        }
-                    }
 
             }
 

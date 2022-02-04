@@ -1,9 +1,8 @@
-package com.pluang.stockapp.ui.login
+package com.pluang.stockapp.ui.login_signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.pluang.stockapp.data.LoginDataSource
-import com.pluang.stockapp.data.LoginRepository
+import com.pluang.stockapp.data.AuthRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -13,10 +12,9 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(
-                loginRepository = LoginRepository(
-                    dataSource = LoginDataSource()
+        if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
+            return AuthViewModel(
+                loginRepository = AuthRepository(
                 )
             ) as T
         }

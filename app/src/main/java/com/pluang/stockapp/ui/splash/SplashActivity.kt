@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.pluang.stockapp.databinding.ActivitySplashBinding
 import com.pluang.stockapp.ui.home.view.MainActivity
-import com.pluang.stockapp.ui.login.LoginActivity
+import com.pluang.stockapp.ui.login_signup.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
 

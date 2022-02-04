@@ -1,35 +1,34 @@
-package com.pluang.stockapp.ui.login
+package com.pluang.stockapp.ui.login_signup
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
-import com.pluang.stockapp.data.LoginRepository
-import com.pluang.stockapp.data.Result
-
 import com.pluang.stockapp.R
+import com.pluang.stockapp.data.AuthRepository
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class AuthViewModel(private val loginRepository: AuthRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
-
-        if (result is Result.Success) {
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(email = result.data.userEmail));
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
-        }
+    fun login(username: String, password: String): LiveData<LoginResult?> {
+        return loginRepository.login(username, password)
     }
 
-    fun loginDataChanged(username: String, password: String) {
+
+    fun status(): LiveData<LoginResult> {
+        return loginRepository.authResult;
+    }
+
+    fun register(username: String, password: String): LiveData<LoginResult?> {
+        return loginRepository.register(username, password)
+    }
+
+
+
+    fun inputDataChanged(username: String, password: String) {
         if (!isUserNameValid(username)) {
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password)) {

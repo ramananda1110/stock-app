@@ -1,28 +1,23 @@
-package com.pluang.stockapp.ui.login
+package com.pluang.stockapp.ui.login_signup
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.pluang.stockapp.R
 import com.pluang.stockapp.databinding.ActivityLoginBinding
 import com.pluang.stockapp.ui.home.view.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginViewModel: AuthViewModel
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         val register = binding.textViewRegister
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+            .get(AuthViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -54,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
+        loginViewModel.status().observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
 
             loading.visibility = View.GONE
@@ -63,15 +58,16 @@ class LoginActivity : AppCompatActivity() {
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
-            }
-            setResult(Activity.RESULT_OK)
 
-            //Complete and destroy login activity once successful
-            finish()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+
+
         })
 
         username.afterTextChanged {
-            loginViewModel.loginDataChanged(
+            loginViewModel.inputDataChanged(
                 username.text.toString(),
                 password.text.toString()
             )
@@ -80,38 +76,19 @@ class LoginActivity : AppCompatActivity() {
 
         password.apply {
             afterTextChanged {
-                loginViewModel.loginDataChanged(
+                loginViewModel.inputDataChanged(
                     username.text.toString(),
                     password.text.toString()
                 )
             }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
-                }
-                false
-            }
+
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
+
                 loginViewModel.login(username.text.toString(), password.text.toString())
 
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                    username.text.toString(),
-                    password.text.toString()
-                )
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val firebaseUser: FirebaseUser = task.result!!.user!!;
-                            val intent = Intent(context, MainActivity::class.java)
-                            context.startActivity(intent)
-                        }
-                    }
 
             }
 

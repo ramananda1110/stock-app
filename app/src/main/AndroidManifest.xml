@@ -14,12 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StockApp">
         <activity
-            android:name=".ui.login.RegisterActivity"
+            android:name=".ui.login_signup.RegisterActivity"
             android:exported="false"
             android:theme="@style/Theme.StockApp.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.login_signup.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.StockApp.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden">

@@ -37,4 +37,5 @@ class StockDataRepository {
             })
             return _stockList
         }
+
 }
