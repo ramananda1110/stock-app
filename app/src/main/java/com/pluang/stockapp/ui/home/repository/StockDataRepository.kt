@@ -3,6 +3,7 @@ package com.pluang.stockapp.ui.home.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FirebaseFirestore
 import com.pluang.stockapp.data.model.DataResponse
 import com.pluang.stockapp.data.model.StockData
 import com.pluang.stockapp.network.ApiService
@@ -25,8 +26,9 @@ class StockDataRepository {
                     response: Response<DataResponse?>
                 ) {
                     if (response.isSuccessful) {
-                        _stockList.postValue(response.body())
                         isUpdated.setValue(false)
+                        _stockList.postValue(response.body())
+
                     }
                 }
 
@@ -38,4 +40,34 @@ class StockDataRepository {
             return _stockList
         }
 
+
+    val wishList: MutableLiveData<List<StockData>>
+        get() {
+            val stockList = MutableLiveData<List<StockData>>()
+            isUpdated.setValue(true)
+            val wishList = mutableListOf<StockData>()
+            val db = FirebaseFirestore.getInstance()
+            val collection = db.collection("stock_data")
+
+            collection.get().addOnSuccessListener { result ->
+                for (data in result) {
+                    wishList.add(data.toObject(StockData::class.java))
+                }
+
+                for (list in wishList) {
+                    Log.e("dataPin", list.sid!!);
+                }
+
+                isUpdated.setValue(false)
+                stockList.postValue(wishList)
+
+            }.addOnFailureListener { exception ->
+                isUpdated.setValue(false)
+                Log.d("TAG", "Error getting documents: ", exception)
+            }
+
+            return stockList
+        }
 }
+
+

@@ -6,8 +6,9 @@ import androidx.viewpager.widget.ViewPager
 import com.pluang.stockapp.R
 import com.pluang.stockapp.databinding.ActivityMainBinding
 import com.pluang.stockapp.ui.home.adapter.MainPagerAdapter
+import com.pluang.stockapp.ui.home.contact.OnUpdateListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnUpdateListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -64,5 +65,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onUpdateView() {
+        startActivity(intent)
     }
 }

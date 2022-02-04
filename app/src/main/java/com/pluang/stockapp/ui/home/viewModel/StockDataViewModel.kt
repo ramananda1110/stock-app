@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.pluang.stockapp.data.model.DataResponse
+import com.pluang.stockapp.data.model.StockData
 import com.pluang.stockapp.ui.home.repository.StockDataRepository
 
 class StockDataViewModel(application: Application) : AndroidViewModel(application) {
@@ -15,4 +16,9 @@ class StockDataViewModel(application: Application) : AndroidViewModel(applicatio
 
     val stockList: MutableLiveData<DataResponse>
         get() = repository.stocksData;
+
+    val wishList: MutableLiveData<List<StockData>>
+        get() = repository.wishList;
+
+
 }

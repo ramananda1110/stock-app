@@ -2,8 +2,8 @@ package com.pluang.stockapp.ui.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pluang.stockapp.R
@@ -14,16 +14,19 @@ import com.pluang.stockapp.ui.home.contact.OnCheckListener
 class StockListAdapter(
     private var mContext: Context,
     stockData: List<StockData?>?,
-    onCheckListener: OnCheckListener
+    onCheckListener: OnCheckListener,
+    isWishList: Boolean
 ) : RecyclerView.Adapter<StockListAdapter.StockDataHolder?>() {
-    var dataArrayList: List<StockData>
+    var dataArrayList: List<StockData?>?
     private var layoutInflater: LayoutInflater? = null
-    var onCheckListener: OnCheckListener
+    var isWishList: Boolean = false;
+    private var onCheckListener: OnCheckListener
 
 
     init {
-        dataArrayList = stockData as List<StockData>
+        dataArrayList = stockData
         this.onCheckListener = onCheckListener
+        this.isWishList = isWishList
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): StockDataHolder {
@@ -42,12 +45,12 @@ class StockListAdapter(
 
 
     override fun onBindViewHolder(itemView: StockDataHolder, position: Int) {
-        val data: StockData = dataArrayList[position]
-        val title: String? = data.sid!!
-        val price: Double = data.price!!
+        val data: StockData? = dataArrayList!![position]
+        val title: String? = data?.sid
+        val price: Double? = data?.price
 
-        itemView.binding.tvTile.setText(title);
-        itemView.binding.tvPrice.setText(price.toString());
+        itemView.binding.tvTitle.setText(title);
+        itemView.binding.tvPrice.setText(price.toString() + "$");
 
         itemView.binding.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -55,6 +58,9 @@ class StockListAdapter(
             }
         }
 
+        if (isWishList) {
+            itemView.binding.checkbox.visibility = View.GONE
+        }
     }
 
     class StockDataHolder(val binding: StockDataListBinding) :
@@ -63,7 +69,7 @@ class StockListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataArrayList.count();
+        return dataArrayList!!.count();
     }
 
 
