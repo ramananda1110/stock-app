@@ -31,7 +31,7 @@ class StockDataRepository {
                 }
 
                 override fun onFailure(call: Call<DataResponse?>, t: Throwable) {
-                    Log.e("printError", t.message.toString());
+                    Log.e("StockDataRepository", t.message.toString());
                     isUpdated.setValue(false)
                 }
             })

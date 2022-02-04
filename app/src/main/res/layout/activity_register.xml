@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginActivity">
 
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_email"
         style="@style/Style.App.InputLayout.Box"
@@ -45,7 +43,7 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:textColorHint="@color/black"
             tools:ignore="MissingPrefix" />
@@ -65,11 +63,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_32sdp"
-        android:text="LOGIN"
+        android:text="Register"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,25 +81,25 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:gravity="center"
-        android:orientation="horizontal"
         android:padding="@dimen/_8sdp"
-        app:layout_constraintTop_toBottomOf="@+id/login">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/register">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Do you have not an account?"
+            android:text="You already have an account?"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
 
         <TextView
-            android:id="@+id/textViewRegister"
+            android:id="@+id/textViewLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
             android:layout_toEndOf="@+id/textView"
-            android:text="Register"
+            android:text="Login"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />

@@ -3,6 +3,7 @@ package com.pluang.stockapp.ui.home.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pluang.stockapp.R
@@ -48,19 +49,18 @@ class StockListAdapter(
         itemView.binding.tvTile.setText(title);
         itemView.binding.tvPrice.setText(price.toString());
 
-
-    }
-
-    class StockDataHolder(binding: StockDataListBinding) :
-        RecyclerView.ViewHolder(binding.getRoot()) {
-        val binding: StockDataListBinding
-
-        init {
-            this.binding = binding
+        itemView.binding.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                onCheckListener.onCheckListener(data)
+            }
         }
 
     }
 
+    class StockDataHolder(val binding: StockDataListBinding) :
+        RecyclerView.ViewHolder(binding.getRoot()) {
+
+    }
 
     override fun getItemCount(): Int {
         return dataArrayList.count();

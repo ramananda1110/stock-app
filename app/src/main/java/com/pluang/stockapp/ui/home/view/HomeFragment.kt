@@ -3,7 +3,6 @@ package com.pluang.stockapp.ui.home.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,20 +42,19 @@ class HomeFragment : Fragment(), OnCheckListener {
         if (NetworkState.isNetworkAvailable(requireActivity())) {
             setData();
         } else {
-            Toast.makeText(requireActivity(), "message", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireActivity(),
+                getString(R.string.internet_check_text),
+                Toast.LENGTH_LONG
+            ).show()
         }
         viewModel!!.updateStatus.observe(this, { status: Boolean -> loaderEnable(status) })
         return binding!!.root
     }
 
     private fun setData() {
-
-        Log.e("printData", "loading ")
-
         viewModel!!.stockList.observe(requireActivity(), Observer {
             val dataResponse = it ?: return@Observer
-
-            Log.e("printData", "hello " + dataResponse.toString())
 
             if (!dataResponse.data?.isEmpty()!!) {
                 adapter = StockListAdapter(requireActivity(), dataResponse.data, this)
@@ -79,25 +77,14 @@ class HomeFragment : Fragment(), OnCheckListener {
 
     override fun onCheckListener(stockData: StockData?) {
 
+        saveWishData(stockData)
     }
 
 
     fun saveWishData(stockData: StockData?) {
         val db = FirebaseFirestore.getInstance()
-        //val data: HashMap<String, Any> = HashMap();
-
-        /*data["sid"] = stockData?.sid.toString()
-        data["price"] = stockData?.price!!.toDouble()
-        data["close"] = stockData.close!!.toDouble()
-        data["change"] = stockData.change!!.toDouble()
-        data["high"] = stockData.high!!.toDouble()
-        data["low"] = stockData.low!!.toDouble()
-        data["volume"] = stockData.volume!!.toInt()
-        data["date"] = stockData.date.toString()
-*/
 
         val collection = db.collection("stock_data")
-
         val data = hashMapOf(
             "sid" to stockData?.sid,
             "price" to stockData?.price,
@@ -110,9 +97,9 @@ class HomeFragment : Fragment(), OnCheckListener {
         )
 
         collection.document(stockData?.sid.toString()).set(data).addOnSuccessListener {
-
+            Toast.makeText(requireActivity(), "Data added to wishlist.", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
-
+            Toast.makeText(requireActivity(), "Failed!", Toast.LENGTH_LONG).show()
         }
 
     }

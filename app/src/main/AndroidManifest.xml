@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pluang.stockapp">
 
-
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -16,21 +14,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StockApp">
         <activity
+            android:name=".ui.login.RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.StockApp.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
-            android:label="@string/title_activity_login">
+            android:theme="@style/Theme.StockApp.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+
+        </activity>
+        <activity
+            android:name=".ui.home.view.MainActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.StockApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.home.view.MainActivity"
-            android:exported="true">
 
         </activity>
-
 
     </application>
 
