@@ -13,6 +13,17 @@
 
     </style>
 
+    <style name="Style.StockApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorPrimaryDark">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--        default text color-->
+        <item name="android:textColorTertiary">@color/black</item>
+
+
+    </style>
 
 
     <style name="Style.App.InputLayout.Box" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

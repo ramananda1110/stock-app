@@ -42,17 +42,12 @@ class AuthRepository() {
         )
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val data =
-                        LoginResult(success = LoggedInUserView(email = username));
-                    result.postValue(data);
-
                     _result.value =
                         LoginResult(success = LoggedInUserView(email = username));
 
                 } else {
-                    val data =
-                        LoginResult(error = R.string.login_failed)
-                    result.postValue(data);
+
+                    _result.value = LoginResult(error = R.string.login_failed)
                 }
             }
 
@@ -71,10 +66,10 @@ class AuthRepository() {
         )
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    LoggedInUser(isLogin = true, email = username)
-
+                    _result.value =
+                        LoginResult(success = LoggedInUserView(email = username));
                 } else {
-                    LoggedInUser(isLogin = false, email = username)
+                    _result.value = LoginResult(error = R.string.register_failed)
                 }
             }
 

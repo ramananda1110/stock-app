@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -29,6 +30,7 @@ class HomeFragment : Fragment(), OnCheckListener {
     private var viewModel: StockDataViewModel? = null
     private var binding: FragmentHomeBinding? = null
 
+
     @SuppressLint("FragmentLiveDataObserve")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +41,7 @@ class HomeFragment : Fragment(), OnCheckListener {
         viewModel = ViewModelProvider(this).get(StockDataViewModel::class.java)
         layoutManager = LinearLayoutManager(context)
         mContext = activity
+
         if (NetworkState.isNetworkAvailable(requireActivity())) {
             setData();
         } else {
@@ -48,7 +51,12 @@ class HomeFragment : Fragment(), OnCheckListener {
                 Toast.LENGTH_LONG
             ).show()
         }
-        viewModel!!.updateStatus.observe(this, { status: Boolean -> loaderEnable(status) })
+        viewModel!!.updateStatus.observe(this, { status: Boolean ->
+
+            binding!!.progressBar = status
+
+
+        })
         return binding!!.root
     }
 
@@ -65,14 +73,6 @@ class HomeFragment : Fragment(), OnCheckListener {
         })
 
 
-    }
-
-    private fun loaderEnable(status: Boolean) {
-        if (status) {
-            binding!!.progressView.visibility = View.VISIBLE
-        } else {
-            binding!!.progressView.visibility = View.GONE
-        }
     }
 
     override fun onCheckListener(stockData: StockData?) {

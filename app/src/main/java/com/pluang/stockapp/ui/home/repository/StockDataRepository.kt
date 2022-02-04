@@ -14,9 +14,9 @@ class StockDataRepository {
     private val isUpdated = MutableLiveData<Boolean>()
     val updateStatus: LiveData<Boolean>
         get() = isUpdated
-    val stocksData: MutableLiveData<DataResponse?>
+    val stocksData: MutableLiveData<DataResponse>
         get() {
-            val _stockList = MutableLiveData<DataResponse?>()
+            val _stockList = MutableLiveData<DataResponse>()
             isUpdated.setValue(true)
 
             ApiService.create().getStocksData()?.enqueue(object : Callback<DataResponse?> {

@@ -51,6 +51,7 @@ class RegisterActivity : AppCompatActivity() {
             val registerResult = it ?: return@Observer
 
             loading.visibility = View.GONE
+            register.visibility = View.VISIBLE
             if (registerResult.error != null) {
                 showLoginFailed(registerResult.error)
             }
@@ -85,6 +86,7 @@ class RegisterActivity : AppCompatActivity() {
 
             register.setOnClickListener {
                 loading.visibility = View.VISIBLE
+                register.visibility = View.GONE
                 loginViewModel.register(username.text.toString(), password.text.toString())
 
 

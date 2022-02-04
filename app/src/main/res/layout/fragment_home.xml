@@ -17,12 +17,6 @@
         android:layout_height="match_parent"
         tools:context=".home.view.fragment.NotificationFragment">
 
-        <ProgressBar
-            android:id="@+id/progressView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="@{progressBar?View.VISIBLE:View.GONE}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_list"
@@ -30,6 +24,12 @@
             android:layout_height="match_parent"
             android:padding="@dimen/_8sdp" />
 
+        <ProgressBar
+            android:id="@+id/progressView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{progressBar?View.VISIBLE:View.GONE}" />
 
     </RelativeLayout>
 

@@ -55,12 +55,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_32sdp"
         android:visibility="gone"
+        android:layout_marginTop="@dimen/_32sdp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_password"  />
+        app:layout_constraintTop_toBottomOf="@+id/layout_password" />
 
     <Button
         android:id="@+id/login"
@@ -90,7 +90,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Do you have not an account?"
+            android:text="@string/do_you_have_not_an_account"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
 
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
             android:layout_toEndOf="@+id/textView"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />

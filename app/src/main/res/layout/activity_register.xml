@@ -43,7 +43,7 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:textColorHint="@color/black"
             tools:ignore="MissingPrefix" />
@@ -54,21 +54,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_64sdp"
-        android:layout_marginBottom="@dimen/_64sdp"
+        android:layout_marginTop="@dimen/_32sdp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/layout_password"
-        app:layout_constraintStart_toStartOf="@+id/layout_password"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_password" />
 
     <Button
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_32sdp"
-        android:text="@string/register_txt"
         android:enabled="false"
+        android:text="@string/register_txt"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,8 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:gravity="center"
-        android:padding="@dimen/_8sdp"
         android:orientation="horizontal"
+        android:padding="@dimen/_8sdp"
         app:layout_constraintTop_toBottomOf="@+id/register">
 
         <TextView

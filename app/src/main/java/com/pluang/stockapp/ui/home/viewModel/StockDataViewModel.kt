@@ -13,6 +13,6 @@ class StockDataViewModel(application: Application) : AndroidViewModel(applicatio
     val updateStatus: LiveData<Boolean>
         get() = repository.updateStatus
 
-    val stockList: MutableLiveData<DataResponse?>
+    val stockList: MutableLiveData<DataResponse>
         get() = repository.stocksData;
 }
