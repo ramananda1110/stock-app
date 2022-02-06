@@ -5,21 +5,29 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.pluang.stockapp.R
 import com.pluang.stockapp.databinding.ActivityMainBinding
 import com.pluang.stockapp.ui.home.adapter.MainPagerAdapter
 import com.pluang.stockapp.ui.home.contact.OnUpdateListener
+import com.pluang.stockapp.ui.home.viewModel.StockDataViewModel
+
 
 class MainActivity : AppCompatActivity(), OnUpdateListener {
 
     private lateinit var binding: ActivityMainBinding
     private var doubleBackToExitPressedOnce = false
+    private var viewModel: StockDataViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(StockDataViewModel::class.java)
+
         setContentView(binding.root)
 
         setViewPager()
@@ -42,7 +50,6 @@ class MainActivity : AppCompatActivity(), OnUpdateListener {
                 }
                 R.id.menu_wishlist -> {
                     binding.viewPager.currentItem = 1
-
                 }
                 R.id.menu_profile -> {
                     binding.viewPager.currentItem = 2
@@ -82,8 +89,12 @@ class MainActivity : AppCompatActivity(), OnUpdateListener {
     }
 
     override fun onUpdateView() {
-        binding.viewPager.currentItem = 1
-
+        startActivity(intent)
+       // binding.viewPager.currentItem = 1
+        /*val tag = "android:switcher:" + R.id.viewPager.toString() + ":" + 1
+        val f = supportFragmentManager.findFragmentByTag(tag) as WishListFragment?
+        f?.displayReceivedData("test update")
+        binding.viewPager.currentItem = 1*/
     }
 
     private fun exitApp() {
@@ -101,5 +112,6 @@ class MainActivity : AppCompatActivity(), OnUpdateListener {
             .show()
         Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 5000)
     }
+
 
 }

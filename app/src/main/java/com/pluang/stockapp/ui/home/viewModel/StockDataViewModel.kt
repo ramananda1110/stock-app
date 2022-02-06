@@ -9,7 +9,9 @@ import com.pluang.stockapp.data.model.StockData
 import com.pluang.stockapp.ui.home.repository.StockDataRepository
 
 class StockDataViewModel(application: Application) : AndroidViewModel(application) {
+
     var repository: StockDataRepository = StockDataRepository()
+
 
     val updateStatus: LiveData<Boolean>
         get() = repository.updateStatus
@@ -17,8 +19,10 @@ class StockDataViewModel(application: Application) : AndroidViewModel(applicatio
     val stockList: MutableLiveData<DataResponse>
         get() = repository.stocksData;
 
+
     fun getWishList(userId: String): MutableLiveData<List<StockData>> {
-        return repository.getWishList(userId)
+        return repository.getWishList(userId);
     }
+
 
 }

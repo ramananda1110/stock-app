@@ -3,6 +3,7 @@ package com.pluang.stockapp.ui.home.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,11 +42,10 @@ class WishListFragment : Fragment(), OnCheckListener {
         mContext = activity
 
         firebaseAuth = FirebaseAuth.getInstance();
-        val firebaseUser = firebaseAuth.currentUser
-
+        val firebaseUser = firebaseAuth.currentUser!!
 
         if (isNetworkAvailable(requireActivity())) {
-            setWishListData(firebaseUser?.email.toString());
+            setWishListData(firebaseUser.email.toString());
         } else {
             Toast.makeText(
                 requireActivity(),
@@ -57,8 +57,10 @@ class WishListFragment : Fragment(), OnCheckListener {
         return binding!!.root
     }
 
+
+
     private fun setWishListData(userId: String) {
-        viewModel!!.getWishList(userId).observe(requireActivity(), Observer {
+        viewModel?.getWishList(userId)?.observe(requireActivity(), Observer {
             val wishList = it ?: return@Observer
 
             if (wishList.isNotEmpty()) {
@@ -66,7 +68,6 @@ class WishListFragment : Fragment(), OnCheckListener {
                 binding!!.recyclerList.layoutManager = layoutManager
                 binding!!.recyclerList.adapter = adapter
             }
-
         })
 
     }

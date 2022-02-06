@@ -37,7 +37,8 @@ class HomeFragment : Fragment(), OnCheckListener {
     private var TAG = "HomeFragment"
     private lateinit var firebaseAuth: FirebaseAuth
 
-    var onUpdateListener: OnUpdateListener? = null
+    // private lateinit var sm: SendMessage
+    private var onUpdateListener: OnUpdateListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -56,8 +57,8 @@ class HomeFragment : Fragment(), OnCheckListener {
         viewModel = ViewModelProvider(this).get(StockDataViewModel::class.java)
         layoutManager = LinearLayoutManager(context)
         mContext = activity
-
         firebaseAuth = FirebaseAuth.getInstance();
+        //sm = activity as SendMessage
 
         if (NetworkState.isNetworkAvailable(requireActivity())) {
             setData();
@@ -85,7 +86,6 @@ class HomeFragment : Fragment(), OnCheckListener {
     private fun setData() {
         viewModel!!.stockList.observe(requireActivity(), Observer {
             val dataResponse = it ?: return@Observer
-
             if (!dataResponse.data.isNullOrEmpty()) {
                 adapter = StockListAdapter(requireActivity(), dataResponse.data, this, false)
                 binding!!.recyclerList.layoutManager = layoutManager
@@ -93,19 +93,17 @@ class HomeFragment : Fragment(), OnCheckListener {
             }
         })
 
-
     }
 
     private fun authRefresh() {
         handler = Handler()
         myRunnable = Runnable {
-
             // Things to be done
             setData();
-            Toast.makeText(
+            /*Toast.makeText(
                 requireActivity(), "Re-loading...",
                 Toast.LENGTH_LONG
-            ).show()
+            ).show()*/
         }
         handler?.postDelayed(myRunnable!!, ((1000 * 5).toLong()))
     }
@@ -148,5 +146,6 @@ class HomeFragment : Fragment(), OnCheckListener {
         }
 
     }
+
 
 }
