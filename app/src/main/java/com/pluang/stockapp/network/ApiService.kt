@@ -1,5 +1,6 @@
 package com.pluang.stockapp.network
 
+import com.pluang.stockapp.BuildConfig
 import com.pluang.stockapp.data.model.DataResponse
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -8,7 +9,6 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 
 interface ApiService {
-
 
     @Headers("Accept: application/json")
     @GET("stocks/quotes?sids=RELI%2CTCS%2CITC%2CHDBK%2CINFY")
@@ -20,7 +20,7 @@ interface ApiService {
 
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://api.tickertape.in/")
+                .baseUrl(BuildConfig.API_BASE_URL)
                 .build()
 
             return retrofit.create(ApiService::class.java);

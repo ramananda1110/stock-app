@@ -41,13 +41,13 @@ class StockDataRepository {
         }
 
 
-    val wishList: MutableLiveData<List<StockData>>
-        get() {
+
+    fun getWishList (userId: String): MutableLiveData<List<StockData>> {
             val stockList = MutableLiveData<List<StockData>>()
             isUpdated.setValue(true)
             val wishList = mutableListOf<StockData>()
             val db = FirebaseFirestore.getInstance()
-            val collection = db.collection("stock_data")
+            val collection = db.collection(userId)
 
             collection.get().addOnSuccessListener { result ->
                 for (data in result) {

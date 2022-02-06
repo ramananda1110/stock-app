@@ -1,0 +1,24 @@
+ext.versionCode = 1
+ext.versionName = "1.0.0"
+
+private Integer generateVersionCode() {
+    return ext.versionCode
+}
+
+private String generateVersionName() {
+    return versionName
+}
+
+android {
+    defaultConfig {
+        versionCode generateVersionCode()
+        versionName generateVersionName()
+        buildConfigField "String", 'API_BASE_URL', API_BASE_URL
+
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Stock App-${defaultConfig.versionName}-${variant.buildType.name}.apk"
+        }
+    }
+}

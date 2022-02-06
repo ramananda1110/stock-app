@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pluang.stockapp.R
 import com.pluang.stockapp.data.model.StockData
@@ -34,6 +35,7 @@ class HomeFragment : Fragment(), OnCheckListener {
     private var handler: Handler? = null
     private var myRunnable: Runnable? = null
     private var TAG = "HomeFragment"
+    private lateinit var firebaseAuth: FirebaseAuth
 
     var onUpdateListener: OnUpdateListener? = null
 
@@ -55,6 +57,8 @@ class HomeFragment : Fragment(), OnCheckListener {
         layoutManager = LinearLayoutManager(context)
         mContext = activity
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         if (NetworkState.isNetworkAvailable(requireActivity())) {
             setData();
         } else {
@@ -64,13 +68,9 @@ class HomeFragment : Fragment(), OnCheckListener {
                 Toast.LENGTH_LONG
             ).show()
         }
-        viewModel!!.updateStatus.observe(this, { status: Boolean ->
-
+        viewModel!!.updateStatus.observe(this) { status: Boolean ->
             binding!!.progressBar = status
-
-        })
-
-
+        }
 
 
         return binding!!.root
@@ -86,12 +86,11 @@ class HomeFragment : Fragment(), OnCheckListener {
         viewModel!!.stockList.observe(requireActivity(), Observer {
             val dataResponse = it ?: return@Observer
 
-            if (!dataResponse.data?.isEmpty()!!) {
+            if (!dataResponse.data.isNullOrEmpty()) {
                 adapter = StockListAdapter(requireActivity(), dataResponse.data, this, false)
                 binding!!.recyclerList.layoutManager = layoutManager
                 binding!!.recyclerList.adapter = adapter
             }
-
         })
 
 
@@ -108,7 +107,7 @@ class HomeFragment : Fragment(), OnCheckListener {
                 Toast.LENGTH_LONG
             ).show()
         }
-        handler?.postDelayed(myRunnable!!, (1000 * 5))
+        handler?.postDelayed(myRunnable!!, ((1000 * 5).toLong()))
     }
 
     override fun onCheckListener(stockData: StockData?) {
@@ -123,9 +122,10 @@ class HomeFragment : Fragment(), OnCheckListener {
 
     private fun saveWishData(stockData: StockData?) {
         val db = FirebaseFirestore.getInstance()
+        val firebaseUser = firebaseAuth.currentUser
 
         binding!!.progressBar = true
-        val collection = db.collection("stock_data")
+        val collection = db.collection(firebaseUser?.email.toString())
         val data = hashMapOf(
             "sid" to stockData?.sid,
             "price" to stockData?.price,

@@ -17,8 +17,8 @@ class StockDataViewModel(application: Application) : AndroidViewModel(applicatio
     val stockList: MutableLiveData<DataResponse>
         get() = repository.stocksData;
 
-    val wishList: MutableLiveData<List<StockData>>
-        get() = repository.wishList;
-
+    fun getWishList(userId: String): MutableLiveData<List<StockData>> {
+        return repository.getWishList(userId)
+    }
 
 }

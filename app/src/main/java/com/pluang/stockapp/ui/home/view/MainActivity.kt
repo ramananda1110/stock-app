@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), OnUpdateListener {
     private fun setViewPager() {
         binding.viewPager.adapter = MainPagerAdapter(supportFragmentManager)
         //binding.viewPager
-        binding.viewPager.offscreenPageLimit = 2
+        binding.viewPager.offscreenPageLimit = 1
     }
 
     private fun setBottomViewListener() {
@@ -82,7 +82,8 @@ class MainActivity : AppCompatActivity(), OnUpdateListener {
     }
 
     override fun onUpdateView() {
-        startActivity(intent)
+        binding.viewPager.currentItem = 1
+
     }
 
     private fun exitApp() {

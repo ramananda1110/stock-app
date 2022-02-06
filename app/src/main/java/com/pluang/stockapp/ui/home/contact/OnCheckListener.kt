@@ -5,5 +5,4 @@ import com.pluang.stockapp.data.model.StockData
 interface OnCheckListener {
 
     fun onCheckListener(stockData: StockData?)
-
 }

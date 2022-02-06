@@ -11,10 +11,9 @@ data class DataResponse(
     val success: Boolean? = null
 
 
-
 )
 
- class StockData(
+class StockData(
 
     @field:SerializedName("volume")
     val volume: Int? = null,

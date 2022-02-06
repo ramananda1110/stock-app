@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.pluang.stockapp.R
 import com.pluang.stockapp.data.model.StockData
 import com.pluang.stockapp.databinding.FragmentHomeBinding
@@ -19,7 +20,6 @@ import com.pluang.stockapp.network.NetworkState.isNetworkAvailable
 import com.pluang.stockapp.ui.home.adapter.StockListAdapter
 import com.pluang.stockapp.ui.home.contact.OnCheckListener
 import com.pluang.stockapp.ui.home.viewModel.StockDataViewModel
-import java.util.*
 
 class WishListFragment : Fragment(), OnCheckListener {
     var adapter: StockListAdapter? = null
@@ -27,6 +27,7 @@ class WishListFragment : Fragment(), OnCheckListener {
     private var mContext: Context? = null
     private var viewModel: StockDataViewModel? = null
     private var binding: FragmentHomeBinding? = null
+    private lateinit var firebaseAuth: FirebaseAuth
 
     @SuppressLint("FragmentLiveDataObserve")
     override fun onCreateView(
@@ -38,8 +39,13 @@ class WishListFragment : Fragment(), OnCheckListener {
         viewModel = ViewModelProvider(this).get(StockDataViewModel::class.java)
         layoutManager = LinearLayoutManager(context)
         mContext = activity
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        val firebaseUser = firebaseAuth.currentUser
+
+
         if (isNetworkAvailable(requireActivity())) {
-            setData();
+            setWishListData(firebaseUser?.email.toString());
         } else {
             Toast.makeText(
                 requireActivity(),
@@ -51,12 +57,12 @@ class WishListFragment : Fragment(), OnCheckListener {
         return binding!!.root
     }
 
-    private fun setData() {
-        viewModel!!.wishList.observe(requireActivity(), Observer {
+    private fun setWishListData(userId: String) {
+        viewModel!!.getWishList(userId).observe(requireActivity(), Observer {
             val wishList = it ?: return@Observer
 
             if (wishList.isNotEmpty()) {
-                adapter = StockListAdapter(requireActivity(), wishList, this,true)
+                adapter = StockListAdapter(requireActivity(), wishList, this, true)
                 binding!!.recyclerList.layoutManager = layoutManager
                 binding!!.recyclerList.adapter = adapter
             }
@@ -64,7 +70,6 @@ class WishListFragment : Fragment(), OnCheckListener {
         })
 
     }
-
 
     override fun onCheckListener(stockData: StockData?) {
 
